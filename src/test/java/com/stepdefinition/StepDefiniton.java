@@ -13,6 +13,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.base.Base;
+import com.pageobjectmodel.PageObjectModel;
 import com.pages.BookHotel;
 import com.pages.ConfirmationPage;
 import com.pages.LoginPage;
@@ -25,39 +26,36 @@ import cucumber.api.java.en.When;
 import junit.framework.Assert;
 
 public class StepDefiniton extends Base {
-	WebDriver driver;
-	LoginPage page;
-	SearchHotel hotel;
-	SelectHotel select;
-	BookHotel book;
-	ConfirmationPage confirm;
+	PageObjectModel page;
+	LoginPage loginPage;
+	SearchHotel searchHotel;
+	SelectHotel selectHotel;
+	BookHotel bookHotel;
+	ConfirmationPage confirmationPage;
 
 	@Given("User is on the Adactin homepage")
 	public void user_is_on_the_Adactin_homepage() {
-		driver = getDriver();
-		loadURL("https://adactin.com/HotelApp/");
-		screenShot();
+		//driver = getDriver();
+		//loadURL("https://adactin.com/HotelApp/");
+		//screenShot();
 	}
 
 	@When("User enters his details")
 	public void user_enters_his_details(io.cucumber.datatable.DataTable data) {
-		page = new LoginPage();
+		page = new PageObjectModel();
+		
 		List<Map<String, String>> emp = data.asMaps();
 		String s1 = emp.get(0).get("userName");
-		WebElement txtUser = page.getTxtUser();
-		fill(txtUser, s1);
-		Assert.assertEquals("Verify Username", s1,getAttValue(txtUser));
-		String s2 = emp.get(0).get("password");
-		WebElement txtPass = page.getTxtPass();
-		fill(txtPass, s2);
-		Assert.assertEquals("Verify Username", s2,getAttValue(txtPass));
+		fill(page.getLoginPage().getTxtUser(), s1);
+		String s2 = emp.get(0).get("password");		
+		fill(page.getLoginPage().getTxtPass(), s2);
 	}
 
 	@When("User clicks the login button")
 	public void user_clicks_the_login_button() {
-		WebElement btn = page.getBtnlog();
+		WebElement btn = page.getLoginPage().getBtnlog();
 		btnClick(btn);
-		screenShot();
+		//screenShot();
 	}
 
 	@When("User should verify the message")
@@ -68,86 +66,73 @@ public class StepDefiniton extends Base {
 
 	@When("User should search hotel")
 	public void user_should_search_hotel(io.cucumber.datatable.DataTable data) {
-		hotel = new SearchHotel();
-		select = new SelectHotel();
+		//searchHotel = new SearchHotel();
+		//selectHotel = new SelectHotel();
+		page = new PageObjectModel();
 		List<Map<String, String>> emp = data.asMaps();
 		String s3 = emp.get(0).get("location");
-		WebElement l = hotel.getLoc();
-		fill(l, s3);
+		fill(page.getSearchHotel().getLoc(), s3);
 		String s4 = emp.get(0).get("Hotels");
-		WebElement h = hotel.getHotels();
-		fill(h, s4);
+		fill(page.getSearchHotel().getHotels(), s4);
 		String s5 = emp.get(0).get("roomtypes");
-		WebElement r = hotel.getRoomType();
-		fill(r, s5);
+		fill(page.getSearchHotel().getRoomType(), s5);
 		String s6 = emp.get(0).get("numberofrooms");
-		WebElement n = hotel.getRoomNos();
-		fill(n, s6);
+				fill(page.getSearchHotel().getRoomNos(), s6);
 		String s7 = emp.get(0).get("adultsperroom");
-		WebElement a = hotel.getAdult();
-		fill(a, s7);
+				fill(page.getSearchHotel().getAdult(), s7);
 		String s8 = emp.get(0).get("childrenperroom");
-		WebElement ch = hotel.getChild();
-		fill(ch, s8);
-		WebElement btn = hotel.getSubmit();
+				fill(page.getSearchHotel().getChild(), s8);
+		WebElement btn = page.getSearchHotel().getSubmit();
 		btnClick(btn);
 		screenShot();
-		WebElement btn1 = select.getRadio();
+		WebElement btn1 = page.getSelectHotel().getRadio();
 		btnClick(btn1);
-		WebElement btnCon = select.getCnt();
+		WebElement btnCon = page.getSelectHotel().getCnt();
 		btnClick(btnCon);
-		screenShot();
+		//screenShot();
 
 	}
 
 	@When("User enters payment")
 	public void user_enters_payment(io.cucumber.datatable.DataTable data) {
-		book = new BookHotel();
+		page= new PageObjectModel();
 		List<Map<String, String>> emp = data.asMaps();
 		String s9 = emp.get(0).get("firstname");
-		WebElement f = book.getFirstName();
-		fill(f, s9);
+				fill(page.getBookHotel().getFirstName(), s9);
 		String s10 = emp.get(0).get("lastname");
-		WebElement l = book.getLastName();
-		fill(l, s10);
+				fill(page.getBookHotel().getLastName(), s10);
 		String s11 = emp.get(0).get("billingaddress");
-		WebElement a = book.getAddress();
-		fill(a, s11);
+				fill(page.getBookHotel().getAddress(), s11);
 		String s12 = emp.get(0).get("creditcardnumber");
-		WebElement c = book.getCreditnum();
-		fill(c, s12);
+				fill(page.getBookHotel().getCreditnum(), s12);
 		String s13 = emp.get(0).get("creditcardtype");
-		WebElement n = book.getCreditTyp();
-		fill(n, s13);
+				fill(page.getBookHotel().getCreditTyp(), s13);
 		String s14 = emp.get(0).get("expirymonth");
-		WebElement m = book.getExpMonth();
-		fill(m, s14);
+		fill(page.getBookHotel().getExpMonth(), s14);
 		String s15 = emp.get(0).get("expiryyear");
-		WebElement y = book.getExpYear();
-		fill(y, s15);
+		
+		fill(page.getBookHotel().getExpYear(), s15);
 		String s16 = emp.get(0).get("cvvnumber");
-		WebElement v = book.getCvv();
-		v.sendKeys("4568");
+			fill(page.getBookHotel().getCvv(),s16);
 	}
 
 	@When("User gets orderid")
 	public void user_gets_orderid() throws AWTException {
-		book = new BookHotel();
-		confirm = new ConfirmationPage();
-		WebElement btnCon = book.getBookNow();
+		page = new PageObjectModel();
+		WebElement btnCon = page.getBookHotel().getBookNow();
 		btnClick(btnCon);
 		screenShot();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		WebElement order = confirm.getOrdNo();
+		WebElement order = page.getConfirmationPage().getOrdNo();
 		String txt = order.getAttribute("value");
 		System.out.println(txt);
-		WebElement it = confirm.getMyIt();
+		WebElement it = page.getConfirmationPage().getMyIt();
 		btnClick(it);
 		screenShot();
 		WebElement txtOrder = driver.findElement(By.xpath("//input[@value='" + txt + "']/parent::td/preceding-sibling::td"));
 		btnClick(txtOrder);
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		WebElement ord = confirm.getCancel();
+		WebElement ord = page.getConfirmationPage().getCancel();
 		btnClick(ord);
 		Alert a= driver.switchTo().alert();
 		a.accept();

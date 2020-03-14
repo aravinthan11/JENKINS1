@@ -17,48 +17,59 @@ import com.google.common.collect.Ordering;
 
 public class Base {
 	public static WebDriver driver;
+
 	public WebDriver getDriver() {
-		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Admin\\Desktop\\DESKTOP\\JAVA\\eclipse\\scott\\AdactinCUCB\\driver\\chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver",
+				"C:\\Users\\Admin\\Desktop\\DESKTOP\\JAVA\\eclipse\\scott\\AdactinCUCB\\driver\\chromedriver.exe");
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		return driver;
 	}
+
 	public void loadURL(String url) {
-	driver.get(url);
+		driver.get(url);
 	}
-	public void fill(WebElement ele,String name) {
-	ele.sendKeys(name);
+
+	public void fill(WebElement ele, String name) {
+		ele.sendKeys(name);
 	}
+
 	public void btnClick(WebElement ele) {
-	ele.click();
+		ele.click();
 	}
-	public void selectByVisible(WebElement element,String name) {
+
+	public void selectByVisible(WebElement element, String name) {
 		Select s = new Select(element);
 		s.selectByVisibleText(name);
 	}
+
 	public String getAttValue(WebElement ele) {
 		return ele.getAttribute("value");
 
-	}public String getTitle() {
+	}
+
+	public String getTitle() {
 		return driver.getTitle();
-		
 
 	}
+
 	public String genrateRandomData() {
-			return new SimpleDateFormat("EEE_mmm_dd_yyyy_hh_mm_ss").format(new Date());
+		return new SimpleDateFormat("EEE_mmm_dd_yyyy_hh_mm_ss").format(new Date());
 	}
+
 	public void screenShot() {
-	File s= ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-	File d= new File("C:\\Users\\Admin\\Desktop\\DESKTOP\\JAVA\\eclipse\\scott\\AdactinOrderId\\SreenShot\\"+genrateRandomData()+".png");
-	try {
-		FileUtils.copyFile(s,d);
-	} catch (IOException e) {
-		e.printStackTrace();
+		File s = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		File d = new File("C:\\Users\\Admin\\Desktop\\DESKTOP\\JAVA\\eclipse\\scott\\AdactinOrderId\\SreenShot\\"
+				+ genrateRandomData() + ".png");
+		try {
+			FileUtils.copyFile(s, d);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
-	
-	}
-	
+
 	private void quitBrowser() {
-	driver.quit();
+		driver.quit();
 	}
 }
